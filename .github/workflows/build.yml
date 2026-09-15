@@ -12,7 +12,7 @@ jobs:
   linux-x86_64:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
 
@@ -32,7 +32,9 @@ jobs:
 
       - name: Check bundled Xiph dependencies
         run: |
-          if ldd addons/ogg_opus/bin/*.so | grep -E 'lib(opus|opusfile|ogg)'; then
+          if readelf -d addons/ogg_opus/bin/*.so \
+              | grep NEEDED \
+              | grep -E 'lib(opus|opusfile|ogg)'; then
             echo 'Xiph dependency was not linked statically' >&2
             exit 1
           fi
