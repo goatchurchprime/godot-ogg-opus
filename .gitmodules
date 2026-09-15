@@ -1,0 +1,12 @@
+[submodule "thirdparty/opusfile"]
+	path = thirdparty/opusfile
+	url = https://github.com/xiph/opusfile.git
+[submodule "thirdparty/ogg"]
+	path = thirdparty/ogg
+	url = https://github.com/xiph/ogg.git
+[submodule "thirdparty/opus"]
+	path = thirdparty/opus
+	url = https://github.com/xiph/opus.git
+[submodule "godot-cpp"]
+	path = godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git

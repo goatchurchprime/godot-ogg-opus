@@ -1,0 +1,54 @@
+name: Build addon
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux-x86_64:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build debug library
+        run: |
+          cmake -S . -B build-debug -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DGODOTCPP_TARGET=template_debug
+          cmake --build build-debug --parallel
+
+      - name: Build release library
+        run: |
+          cmake -S . -B build-release -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DGODOTCPP_TARGET=template_release
+          cmake --build build-release --parallel
+
+      - name: Check bundled Xiph dependencies
+        run: |
+          if ldd addons/ogg_opus/bin/*.so | grep -E 'lib(opus|opusfile|ogg)'; then
+            echo 'Xiph dependency was not linked statically' >&2
+            exit 1
+          fi
+
+      - name: Package addon
+        run: |
+          mkdir -p dist
+          zip -r dist/godot-ogg-opus-linux-x86_64.zip addons/ogg_opus
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: godot-ogg-opus-linux-x86_64
+          path: dist/godot-ogg-opus-linux-x86_64.zip
+
+      - name: Publish tagged build
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes

@@ -1,0 +1,15 @@
+[application]
+config/name="Godot Ogg Opus Demo"
+run/main_scene="res://smoke.tscn"
+
+[audio]
+driver/enable_input=false
+
+[display]
+window/size/viewport_width=640
+window/size/viewport_height=240
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+

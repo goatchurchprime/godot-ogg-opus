@@ -1,0 +1,8 @@
+/build*/
+/addons/ogg_opus/bin/*
+!/addons/ogg_opus/bin/.gitkeep
+/demo/addons/
+/demo/fixture.opus
+/.godot/
+/demo/.godot/
+*.uid
