@@ -15,6 +15,11 @@ add_subdirectory(godot-cpp)
 add_subdirectory(thirdparty/ogg EXCLUDE_FROM_ALL)
 add_subdirectory(thirdparty/opus EXCLUDE_FROM_ALL)
 
+# These static archives are linked into the GDExtension shared library.
+# Some toolchains enable PIC implicitly; make the requirement explicit so
+# clean distribution builds do not depend on that toolchain behaviour.
+set_target_properties(ogg opus PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # opusfile's upstream CMake project uses find_package for installed Ogg/Opus.
 # Build its file decoder directly here so all three Xiph libraries are linked
 # privately into the single GDExtension binary.
