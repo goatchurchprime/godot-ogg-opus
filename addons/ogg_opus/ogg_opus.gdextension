@@ -3,6 +3,9 @@ entry_symbol = "ogg_opus_library_init"
 compatibility_minimum = "4.5"
 reloadable = true
 
+[icons]
+AudioStreamOggOpus = "res://addons/ogg_opus/icons/audio_stream_ogg_opus.svg"
+
 [libraries]
 linux.debug.x86_64 = "res://addons/ogg_opus/bin/libogg_opus.linux.template_debug.x86_64.so"
 linux.release.x86_64 = "res://addons/ogg_opus/bin/libogg_opus.linux.template_release.x86_64.so"
