@@ -38,7 +38,7 @@ bool AudioStreamOggOpus::inspect_data() {
     const ogg_int64_t samples = op_pcm_total(file, -1);
     channels = op_channel_count(file, -1);
     if (samples >= 0) {
-        length_seconds = static_cast<double>(samples) / 48000.0;
+        length_seconds = static_cast<double>(samples) / OPUSFILE_OUTPUT_SAMPLE_RATE;
     }
     op_free(file);
     return samples >= 0 && channels > 0;
@@ -127,7 +127,7 @@ int32_t AudioStreamPlaybackOggOpus::_mix_resampled(AudioFrame *p_buffer, int32_t
             break;
         }
         if (stream->loop) {
-            const ogg_int64_t loop_sample = static_cast<ogg_int64_t>(stream->loop_offset * 48000.0);
+            const ogg_int64_t loop_sample = static_cast<ogg_int64_t>(stream->loop_offset * OPUSFILE_OUTPUT_SAMPLE_RATE);
             if (op_pcm_seek(decoder, loop_sample) == 0) {
                 ++loop_count;
                 continue;
@@ -158,7 +158,7 @@ double AudioStreamPlaybackOggOpus::_get_playback_position() const {
         return 0.0;
     }
     const ogg_int64_t position = op_pcm_tell(decoder);
-    return position < 0 ? 0.0 : static_cast<double>(position) / 48000.0;
+    return position < 0 ? 0.0 : static_cast<double>(position) / OPUSFILE_OUTPUT_SAMPLE_RATE;
 }
 
 void AudioStreamPlaybackOggOpus::_seek(double p_time) {
@@ -167,7 +167,7 @@ void AudioStreamPlaybackOggOpus::_seek(double p_time) {
     }
     const double limit = stream.is_valid() ? stream->length_seconds : 0.0;
     const double seconds = std::clamp(p_time, 0.0, limit);
-    if (op_pcm_seek(decoder, static_cast<ogg_int64_t>(seconds * 48000.0)) != 0) {
+    if (op_pcm_seek(decoder, static_cast<ogg_int64_t>(seconds * OPUSFILE_OUTPUT_SAMPLE_RATE)) != 0) {
         UtilityFunctions::printerr("AudioStreamPlaybackOggOpus: seek failed at ", seconds, " seconds");
     }
 }

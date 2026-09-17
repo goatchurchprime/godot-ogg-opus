@@ -10,6 +10,8 @@
 
 namespace godot {
 
+inline constexpr int OPUSFILE_OUTPUT_SAMPLE_RATE = 48000;
+
 class AudioStreamOggOpus;
 
 class AudioStreamPlaybackOggOpus : public AudioStreamPlaybackResampled {
@@ -37,7 +39,7 @@ public:
     void initialize(const Ref<AudioStreamOggOpus> &p_stream);
 
     int32_t _mix_resampled(AudioFrame *p_buffer, int32_t p_frames) override;
-    float _get_stream_sampling_rate() const override { return 48000.0f; }
+    float _get_stream_sampling_rate() const override { return static_cast<float>(OPUSFILE_OUTPUT_SAMPLE_RATE); }
     void _start(double p_from_pos = 0.0) override;
     void _stop() override;
     bool _is_playing() const override;
