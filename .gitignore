@@ -1,4 +1,10 @@
 /build*/
+/thirdparty/*/build-scons/
+/.scons-cache/
+/__pycache__/
+/tools/__pycache__/
+/.sconsign.dblite
+/obj/
 /addons/ogg_opus/bin/*
 !/addons/ogg_opus/bin/.gitkeep
 /demo/addons/

@@ -1,56 +1,111 @@
 name: Build addon
-
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
-
+on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  NDK_VERSION: 28.1.13356709
 
 jobs:
-  linux-x86_64:
-    runs-on: ubuntu-24.04
+  desktop:
+    name: ${{ matrix.platform }} ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-22.04, platform: linux, arch: x86_64, target: template_debug }
+          - { os: ubuntu-22.04, platform: linux, arch: x86_64, target: template_release }
+          - { os: windows-latest, platform: windows, arch: x86_64, target: template_debug }
+          - { os: windows-latest, platform: windows, arch: x86_64, target: template_release }
+          - { os: macos-latest, platform: macos, arch: universal, target: template_debug }
+          - { os: macos-latest, platform: macos, arch: universal, target: template_release }
+          - { os: macos-latest, platform: ios, arch: arm64, target: template_debug }
+          - { os: macos-latest, platform: ios, arch: arm64, target: template_release }
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - uses: ./.github/actions/build-gdextension
         with:
-          submodules: recursive
+          platform: ${{ matrix.platform }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
+          artifact: ${{ matrix.platform }}.${{ matrix.target }}.${{ matrix.arch }}
+          additional: lto=full
 
-      - name: Build debug library
-        run: |
-          cmake -S . -B build-debug -G Ninja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DGODOTCPP_TARGET=template_debug
-          cmake --build build-debug --parallel
+  android:
+    name: android ${{ matrix.arch }} ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm32, arm64, x86_32, x86_64]
+        target: [template_debug, template_release]
+    steps:
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - name: Locate Android SDK
+        id: android-sdk
+        run: echo "path=${ANDROID_HOME}" >> "$GITHUB_OUTPUT"
+      - name: Install Android NDK
+        run: echo y | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --install "ndk;${NDK_VERSION}"
+      - uses: ./.github/actions/build-gdextension
+        env:
+          ANDROID_NDK_ROOT: ${{ steps.android-sdk.outputs.path }}/ndk/${{ env.NDK_VERSION }}
+        with:
+          platform: android
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
+          artifact: android.${{ matrix.target }}.${{ matrix.arch }}
+          additional: lto=full
 
-      - name: Build release library
-        run: |
-          cmake -S . -B build-release -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DGODOTCPP_TARGET=template_release
-          cmake --build build-release --parallel
+  web:
+    name: web ${{ matrix.target }} threads=${{ matrix.threads }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [template_debug, template_release]
+        threads: [yes, no]
+    steps:
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - uses: pyodide/setup-emsdk@v15
+        with:
+          version: 3.1.64
+          actions-cache-folder: .emsdk-cache
+      - uses: ./.github/actions/build-gdextension
+        with:
+          platform: web
+          target: ${{ matrix.target }}
+          arch: wasm32
+          artifact: web.${{ matrix.target }}.threads_${{ matrix.threads }}
+          additional: lto=full threads=${{ matrix.threads }}
 
-      - name: Check bundled Xiph dependencies
+  package:
+    name: Package Asset Library addon
+    needs: [desktop, android, web]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: addons/ogg_opus/bin
+          merge-multiple: true
+      - name: Verify and package
         run: |
-          if readelf -d addons/ogg_opus/bin/*.so \
-              | grep NEEDED \
-              | grep -E 'lib(opus|opusfile|ogg)'; then
-            echo 'Xiph dependency was not linked statically' >&2
-            exit 1
-          fi
-
-      - name: Package addon
-        run: |
+          find addons/ogg_opus/bin -type f -print | sort
+          test "$(find addons/ogg_opus/bin -type f | wc -l)" -ge 20
           mkdir -p dist
-          zip -r dist/godot-ogg-opus-linux-x86_64.zip addons/ogg_opus
-
+          zip -r dist/godot-ogg-opus.zip addons/ogg_opus
       - uses: actions/upload-artifact@v4
         with:
-          name: godot-ogg-opus-linux-x86_64
-          path: dist/godot-ogg-opus-linux-x86_64.zip
-
+          name: godot-ogg-opus
+          path: dist/godot-ogg-opus.zip
       - name: Publish tagged build
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes
+        run: gh release create "${GITHUB_REF_NAME}" dist/godot-ogg-opus.zip --generate-notes
