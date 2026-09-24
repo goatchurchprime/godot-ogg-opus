@@ -30,10 +30,19 @@ def _cmake_platform_args(env):
     args = ["-G", "Ninja Multi-Config"]
 
     if platform == "windows":
-        # GitHub's Windows runner uses MSVC and does not provide Ninja's C/C++
-        # environment automatically, so use the installed VS generator.
+        # Follow the compiler SCons/godot-cpp actually discovered. In
+        # particular, windows-latest moved from VS 2022 to VS 2026 and a
+        # hard-coded generator stopped finding an installed IDE.
         arch_map = {"x86_32": "Win32", "x86_64": "x64", "arm32": "ARM", "arm64": "ARM64"}
-        return ["-G", "Visual Studio 17 2022", "-A", arch_map[arch], "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"]
+        generator_map = {
+            "14.5": "Visual Studio 18 2026",
+            "14.4": "Visual Studio 17 2022",
+            "14.3": "Visual Studio 17 2022",
+            "14.2": "Visual Studio 16 2019",
+        }
+        msvc_version = env.get("MSVC_VERSION", "14.5")
+        generator = generator_map.get(msvc_version, "Visual Studio 18 2026")
+        return ["-G", generator, "-A", arch_map[arch], "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"]
     if platform == "macos":
         args += ["-DCMAKE_SYSTEM_NAME=Darwin", "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64", "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15"]
     elif platform == "ios":
@@ -61,7 +70,11 @@ def build_cmake_dependency(env, project, extra_args):
     build_dir = _build_root(project, env)
     configure = ["cmake", "-S", os.path.abspath(project), "-B", build_dir]
     configure += _cmake_platform_args(env)
-    configure += ["-DCMAKE_POSITION_INDEPENDENT_CODE=ON"] + extra_args
+    configure += [
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+        "-DCMAKE_C_VISIBILITY_PRESET=hidden",
+        "-DCMAKE_ASM_FLAGS=-fPIC",
+    ] + extra_args
 
     try:
         subprocess.run(configure, check=True)
