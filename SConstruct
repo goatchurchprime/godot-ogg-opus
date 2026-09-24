@@ -114,6 +114,8 @@ def build_flac(target, source, env):
     # creates conflicting declarations in the NDK headers.
     if env["platform"] == "android" and env["arch"] in ("arm32", "x86_32"):
         options.append("-DCMAKE_C_FLAGS=-DHAVE_FSEEKO=1")
+    if env["platform"] == "windows" and env.get("use_static_cpp", True) and not env.get("debug_crt", False):
+        options.append("-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded")
     return build_cmake_dependency(env, "thirdparty/flac", options)
 
 
