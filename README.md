@@ -1,8 +1,9 @@
 # Godot Ogg Opus
 
-A small GDExtension that makes `.opus` (Ogg Opus) files first-class Godot
+A small GDExtension that makes [.opus` (Ogg Opus)](https://opus-codec.org/) files first-class Godot
 `AudioStream` resources. It uses Xiph's `libopusfile`, `libopus`, and `libogg`.
-It is independent of TwoVoIP: this addon handles stored Ogg Opus media, while
+
+It is independent of [TwoVoIP](https://github.com/goatchurchprime/two-voip-godot-4): this addon handles stored Ogg Opus media, while
 TwoVoIP handles live raw Opus packets.
 
 ```gdscript
@@ -64,3 +65,11 @@ Suggested Asset Library fields are **Godot Ogg Opus**, category
 
 Third-party sources retain their own licences: Opus (BSD), opusfile (BSD),
 libogg (BSD), and godot-cpp (MIT).
+
+## AI assistance
+
+OpenAI Codex was used as a coding agent to discuss whether this functionality
+belonged in TwoVoIP or a separate addon, implement substantial portions of the
+initial GDExtension, add cross-platform build and release packaging, and help
+diagnose build failures. Julian Todd directed and reviewed the work and remains
+responsible for the project and its published releases.

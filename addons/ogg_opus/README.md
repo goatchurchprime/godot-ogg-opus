@@ -21,3 +21,11 @@ Android arm32/arm64/x86-32/x86-64, and threaded or single-threaded Web builds.
 
 Source, issues, and build instructions:
 https://github.com/goatchurchprime/godot-ogg-opus
+
+## AI assistance
+
+OpenAI Codex was used as a coding agent to discuss the addon's architecture,
+implement substantial portions of the initial GDExtension, add cross-platform
+build and release packaging, and help diagnose build failures. Julian Todd
+directed and reviewed the work and remains responsible for the project and its
+published releases.
