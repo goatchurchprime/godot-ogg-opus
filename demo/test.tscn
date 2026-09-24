@@ -43,7 +43,7 @@ text = "Xiph Audio Stream Playground"
 
 [node name="Intro" type="Label" parent="Panel/Margin/VBox" unique_id=948564541]
 layout_mode = 2
-text = "Switch formats while using the same player controls. Optional sound.wav, sound.ogg, and sound.mp3 files appear automatically."
+text = "Compare addon-decoded Opus and FLAC with Godot's native Ogg Vorbis and MP3 streams using the same player controls."
 autowrap_mode = 2
 
 [node name="TrackRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1403486322]

@@ -5,6 +5,7 @@
 /tools/__pycache__/
 /.sconsign.dblite
 /obj/
+/dist/
 /addons/xiph_audio/bin/*
 !/addons/xiph_audio/bin/.gitkeep
 /demo/addons/
