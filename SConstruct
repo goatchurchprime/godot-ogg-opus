@@ -31,7 +31,9 @@ env.Append(
         "thirdparty/opusfile/include",
         "thirdparty/flac/include",
     ],
-    CPPDEFINES=["OP_HAVE_LRINTF"],
+    # FLAC__NO_DLL prevents Windows headers from marking libFLAC symbols as
+    # dllimport when we link the codec statically into the GDExtension.
+    CPPDEFINES=["OP_HAVE_LRINTF", "FLAC__NO_DLL"],
     LIBPATH=[
         library_path(env, "thirdparty/opus"),
         library_path(env, "thirdparty/ogg"),
@@ -107,6 +109,11 @@ def build_flac(target, source, env):
         "-DWITH_OGG=OFF",
         "-DENABLE_MULTITHREADING=OFF",
     ]
+    # libFLAC 1.5.0 misdetects fseeko on 32-bit Android even though Godot's
+    # NDK target is API 24, then aliases the available function to fseek and
+    # creates conflicting declarations in the NDK headers.
+    if env["platform"] == "android" and env["arch"] in ("arm32", "x86_32"):
+        options.append("-DCMAKE_C_FLAGS=-DHAVE_FSEEKO=1")
     return build_cmake_dependency(env, "thirdparty/flac", options)
 
 
