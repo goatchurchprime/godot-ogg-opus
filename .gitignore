@@ -13,6 +13,9 @@
 /demo/sound.wav
 /demo/sound.ogg
 /demo/sound.mp3
+/demo/sound_samples/sound.wav
+/demo/sound_samples/sound.ogg
+/demo/sound_samples/sound.mp3
 /demo/test_files/
 /addons/xiph_audio/*.import
 /addons/xiph_audio/**/*.import

@@ -2,7 +2,8 @@
 
 Run this Godot project to compare seek, playback, and looping across the addon
 and Godot's native audio streams. The stream picker always includes the bundled
-Ogg Opus and 39 kHz FLAC examples.
+Ogg Opus and 39 kHz FLAC examples, plus Ogg Vorbis and MP3 versions of the
+Godot demo intro.
 
 To make local WAV, Ogg Vorbis, and MP3 versions of `sound.opus` for a
 same-source UI comparison:
