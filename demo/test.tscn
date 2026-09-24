@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://brjiu7m7bqbyv"]
 
-[ext_resource type="Script" path="res://test.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://oj4mqix8ukt" path="res://test.gd" id="1_script"]
 
-[node name="AudioFormatDemo" type="Control"]
+[node name="AudioFormatDemo" type="Control" unique_id=1248566154]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,9 +11,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=71692841]
 
-[node name="Panel" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="." unique_id=373710303]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,73 +25,73 @@ offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Margin" type="MarginContainer" parent="Panel"]
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=419449251]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 16
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1270015053]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+[node name="Title" type="Label" parent="Panel/Margin/VBox" unique_id=1224535850]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Xiph Audio Stream Playground"
 
-[node name="Intro" type="Label" parent="Panel/Margin/VBox"]
+[node name="Intro" type="Label" parent="Panel/Margin/VBox" unique_id=948564541]
 layout_mode = 2
 text = "Switch formats while using the same player controls. Optional sound.wav, sound.ogg, and sound.mp3 files appear automatically."
 autowrap_mode = 2
 
-[node name="TrackRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="TrackRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1403486322]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="Panel/Margin/VBox/TrackRow"]
+[node name="Label" type="Label" parent="Panel/Margin/VBox/TrackRow" unique_id=1733240445]
 layout_mode = 2
 text = "Stream"
 
-[node name="TrackPicker" type="OptionButton" parent="Panel/Margin/VBox/TrackRow"]
+[node name="TrackPicker" type="OptionButton" parent="Panel/Margin/VBox/TrackRow" unique_id=1636296569]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Transport" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="Transport" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=255260877]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Play" type="Button" parent="Panel/Margin/VBox/Transport"]
+[node name="Play" type="Button" parent="Panel/Margin/VBox/Transport" unique_id=1090482682]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 text = "Play"
 
-[node name="Loop" type="CheckButton" parent="Panel/Margin/VBox/Transport"]
+[node name="Loop" type="CheckButton" parent="Panel/Margin/VBox/Transport" unique_id=950780420]
 layout_mode = 2
 text = "Loop"
 
-[node name="SeekRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+[node name="SeekRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1066595294]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Elapsed" type="Label" parent="Panel/Margin/VBox/SeekRow"]
+[node name="Elapsed" type="Label" parent="Panel/Margin/VBox/SeekRow" unique_id=416766653]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "0:00"
 horizontal_alignment = 2
 
-[node name="Seek" type="HSlider" parent="Panel/Margin/VBox/SeekRow"]
+[node name="Seek" type="HSlider" parent="Panel/Margin/VBox/SeekRow" unique_id=206657248]
 layout_mode = 2
 size_flags_horizontal = 3
 step = 0.01
 
-[node name="Duration" type="Label" parent="Panel/Margin/VBox/SeekRow"]
+[node name="Duration" type="Label" parent="Panel/Margin/VBox/SeekRow" unique_id=1628121546]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "0:00"
 
-[node name="Details" type="Label" parent="Panel/Margin/VBox"]
+[node name="Details" type="Label" parent="Panel/Margin/VBox" unique_id=66383537]
 layout_mode = 2
 text = "Select a stream to inspect it."
 autowrap_mode = 2
