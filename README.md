@@ -67,6 +67,13 @@ scons platform=linux target=template_debug arch=x86_64
 
 All codec dependencies are statically linked into one GDExtension binary.
 
+## Interactive demo and conformance fixtures
+
+The `demo` project provides a shared play/pause, seek, position, and loop UI for
+Ogg Opus, FLAC, and any optional native Godot WAV, Ogg Vorbis, or MP3 comparison
+files. See `demo/README.md` for helpers that create local same-source comparison
+files and download a focused CC0 FLAC conformance set.
+
 ## Releases and Asset Library
 
 Each GitHub Actions build produces `godot-xiph-audio.zip`. Tags publish the

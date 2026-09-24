@@ -95,6 +95,7 @@ void AudioStreamFLAC::_bind_methods() {
 }
 
 bool AudioStreamFLAC::inspect_data() {
+    valid = false;
     length_seconds = 0.0;
     sample_rate = 0;
     channels = 0;
@@ -122,12 +123,13 @@ bool AudioStreamFLAC::inspect_data() {
     channels = context.channels;
     bits_per_sample = context.bits_per_sample;
     length_seconds = static_cast<double>(context.total_samples) / sample_rate;
-    return context.total_samples > 0;
+    valid = true;
+    return true;
 }
 
 void AudioStreamFLAC::set_data(const PackedByteArray &p_data) { data = p_data; inspect_data(); emit_changed(); }
 PackedByteArray AudioStreamFLAC::get_data() const { return data; }
-bool AudioStreamFLAC::is_valid() const { return !data.is_empty() && length_seconds > 0.0 && sample_rate > 0 && channels > 0; }
+bool AudioStreamFLAC::is_valid() const { return valid && !data.is_empty() && sample_rate > 0 && channels > 0; }
 int AudioStreamFLAC::get_channel_count() const { return channels; }
 int AudioStreamFLAC::get_sample_rate() const { return sample_rate; }
 int AudioStreamFLAC::get_bits_per_sample() const { return bits_per_sample; }

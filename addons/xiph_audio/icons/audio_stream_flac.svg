@@ -1,5 +1,1 @@
-<svg height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
- <path d="m2 1.5h8l4 4v9h-12z" fill="#478cbf" stroke="#fff" stroke-linejoin="round"/>
- <path d="m10 1.5v4h4" fill="none" stroke="#fff" stroke-linejoin="round"/>
- <path d="m4 10h1l1-2 2 4 2-4 1 2h1" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><linearGradient id="a" x2="0" y1="1" y2="15" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff5f5f"/><stop offset=".5" stop-color="#e1da5b"/><stop offset="1" stop-color="#5fff97"/></linearGradient><path fill="url(#a)" d="M13 2a1 1 0 0 0-1-1L4.754 3A1 1 0 0 0 4 4v5.55A2.5 2.5 0 1 0 6 12V4.756l5-1.428V6.5l2-1z"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-linejoin="round" d="m8.5 11 1-2 1 4 1-4 1 2 1-2 1 2"/></svg>

@@ -10,6 +10,10 @@
 /demo/addons/
 /demo/fixture.opus
 /demo/fixture.flac
+/demo/sound.wav
+/demo/sound.ogg
+/demo/sound.mp3
+/demo/test_files/
 /addons/xiph_audio/*.import
 /addons/xiph_audio/**/*.import
 /.godot/

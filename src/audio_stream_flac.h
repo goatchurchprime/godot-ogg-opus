@@ -68,6 +68,7 @@ class AudioStreamFLAC : public AudioStream {
     int sample_rate = 0;
     int channels = 0;
     int bits_per_sample = 0;
+    bool valid = false;
     bool loop = false;
     double loop_offset = 0.0;
 
