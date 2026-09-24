@@ -42,7 +42,18 @@ def _cmake_platform_args(env):
         }
         msvc_version = env.get("MSVC_VERSION", "14.5")
         generator = generator_map.get(msvc_version, "Visual Studio 18 2026")
-        return ["-G", generator, "-A", arch_map[arch], "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"]
+        # These vendored projects do not consistently opt in to CMake policy
+        # CMP0091, so CMAKE_MSVC_RUNTIME_LIBRARY alone leaves their objects on
+        # /MD. Match godot-cpp explicitly to avoid MSVCRT/LIBCMT conflicts.
+        runtime = "/MDd" if env.get("debug_crt", False) else ("/MT" if env.get("use_static_cpp", True) else "/MD")
+        return [
+            "-G", generator,
+            "-A", arch_map[arch],
+            f"-DCMAKE_C_FLAGS_DEBUG={runtime} /Zi /Ob0 /Od /RTC1",
+            f"-DCMAKE_C_FLAGS_MINSIZEREL={runtime} /O1 /Ob1 /DNDEBUG",
+            f"-DCMAKE_C_FLAGS_RELEASE={runtime} /O2 /Ob2 /DNDEBUG",
+            f"-DCMAKE_C_FLAGS_RELWITHDEBINFO={runtime} /Zi /O2 /Ob1 /DNDEBUG",
+        ]
     if platform == "macos":
         args += ["-DCMAKE_SYSTEM_NAME=Darwin", "-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64", "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15"]
     elif platform == "ios":
