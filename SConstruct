@@ -70,16 +70,23 @@ def build_ogg(target, source, env):
 
 
 def build_opus(target, source, env):
+    options = [
+        "-DBUILD_SHARED_LIBS=OFF",
+        "-DOPUS_BUILD_SHARED_LIBRARY=OFF",
+        "-DOPUS_BUILD_TESTING=OFF",
+        "-DOPUS_BUILD_PROGRAMS=OFF",
+        "-DOPUS_BUILD_EXAMPLES=OFF",
+    ]
+    # Opus overrides CMAKE_C_FLAGS with CMAKE_MSVC_RUNTIME_LIBRARY after
+    # project configuration. Select its native option so it matches the /MT
+    # runtime used by godot-cpp and the opusfile sources.
+    if env["platform"] == "windows" and env.get("use_static_cpp", True) and not env.get("debug_crt", False):
+        options.append("-DOPUS_STATIC_RUNTIME=ON")
+
     return build_cmake_dependency(
         env,
         "thirdparty/opus",
-        [
-            "-DBUILD_SHARED_LIBS=OFF",
-            "-DOPUS_BUILD_SHARED_LIBRARY=OFF",
-            "-DOPUS_BUILD_TESTING=OFF",
-            "-DOPUS_BUILD_PROGRAMS=OFF",
-            "-DOPUS_BUILD_EXAMPLES=OFF",
-        ],
+        options,
     )
 
 
