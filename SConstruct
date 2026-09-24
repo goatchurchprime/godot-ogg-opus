@@ -20,7 +20,7 @@ if os.environ.get("SCONS_CACHE"):
     env.CacheDir(os.environ["SCONS_CACHE"])
     env.Decider("MD5")
 
-output_dir = ARGUMENTS.get("addon_output_dir", "addons/ogg_opus/bin")
+output_dir = ARGUMENTS.get("addon_output_dir", "addons/xiph_audio/bin")
 
 env.Append(
     CPPPATH=[
@@ -29,13 +29,15 @@ env.Append(
         generated_include_path(env, "thirdparty/ogg"),
         "thirdparty/opus/include",
         "thirdparty/opusfile/include",
+        "thirdparty/flac/include",
     ],
     CPPDEFINES=["OP_HAVE_LRINTF"],
     LIBPATH=[
         library_path(env, "thirdparty/opus"),
         library_path(env, "thirdparty/ogg"),
+        library_path(env, "thirdparty/flac", "src/libFLAC"),
     ],
-    LIBS=["opus", "ogg"],
+    LIBS=["FLAC", "opus", "ogg"],
 )
 
 if env["platform"] != "windows":
@@ -90,5 +92,24 @@ def build_opus(target, source, env):
     )
 
 
+def build_flac(target, source, env):
+    options = [
+        "-DBUILD_SHARED_LIBS=OFF",
+        "-DBUILD_CXXLIBS=OFF",
+        "-DBUILD_PROGRAMS=OFF",
+        "-DBUILD_EXAMPLES=OFF",
+        "-DBUILD_TESTING=OFF",
+        "-DBUILD_DOCS=OFF",
+        "-DBUILD_UTILS=OFF",
+        "-DINSTALL_MANPAGES=OFF",
+        "-DINSTALL_PKGCONFIG_MODULES=OFF",
+        "-DINSTALL_CMAKE_CONFIG_MODULE=OFF",
+        "-DWITH_OGG=OFF",
+        "-DENABLE_MULTITHREADING=OFF",
+    ]
+    return build_cmake_dependency(env, "thirdparty/flac", options)
+
+
 env.Command("build_ogg", [], build_ogg)
 env.Command("build_opus", [], build_opus)
+env.Command("build_flac", [], build_flac)

@@ -1,5 +1,5 @@
 name: Build GDExtension
-description: Build one Godot Ogg Opus platform/target combination
+description: Build one Xiph Audio for Godot platform/target combination
 inputs:
   platform: { description: Target platform, required: true }
   target: { description: Godot build target, required: true }
@@ -28,23 +28,24 @@ runs:
         params="platform=${{ inputs.platform }} target=${{ inputs.target }} arch=${{ inputs.arch }} ${{ inputs.additional }}"
         scons build_ogg $params
         scons build_opus $params
+        scons build_flac $params
         scons $params
     - name: Verify bundled Linux dependencies
       if: inputs.platform == 'linux'
       shell: bash
       run: |
-        file addons/ogg_opus/bin/*.so
-        if readelf -d addons/ogg_opus/bin/*.so | grep NEEDED | grep -E 'lib(opus|ogg)'; then
+        file addons/xiph_audio/bin/*.so
+        if readelf -d addons/xiph_audio/bin/*.so | grep NEEDED | grep -E 'lib(FLAC|opus|ogg)'; then
           echo 'A Xiph dependency was linked dynamically' >&2
           exit 1
         fi
     - name: Remove non-runtime Windows files
       if: runner.os == 'Windows'
       shell: powershell
-      run: Remove-Item addons/ogg_opus/bin/* -Recurse -Include *.exp,*.lib,*.pdb -Force
+      run: Remove-Item addons/xiph_audio/bin/* -Recurse -Include *.exp,*.lib,*.pdb -Force
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.artifact }}
-        path: addons/ogg_opus/bin/*
+        path: addons/xiph_audio/bin/*
         if-no-files-found: error
         retention-days: 7

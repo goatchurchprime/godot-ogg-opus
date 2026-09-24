@@ -5,10 +5,13 @@
 /tools/__pycache__/
 /.sconsign.dblite
 /obj/
-/addons/ogg_opus/bin/*
-!/addons/ogg_opus/bin/.gitkeep
+/addons/xiph_audio/bin/*
+!/addons/xiph_audio/bin/.gitkeep
 /demo/addons/
 /demo/fixture.opus
+/demo/fixture.flac
+/addons/xiph_audio/*.import
+/addons/xiph_audio/**/*.import
 /.godot/
 /demo/.godot/
 *.uid

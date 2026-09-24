@@ -16,8 +16,8 @@ def _configuration(env):
     return "RelWithDebInfo" if env.get("dev_build", False) else "Release"
 
 
-def library_path(env, project):
-    return os.path.join(_build_root(project, env), _configuration(env))
+def library_path(env, project, subdirectory=""):
+    return os.path.join(_build_root(project, env), subdirectory, _configuration(env))
 
 
 def generated_include_path(env, project):
@@ -100,7 +100,7 @@ def build_cmake_dependency(env, project, extra_args):
 
 def output_library(env, output_dir):
     thread_suffix = ".threads" if env["platform"] == "web" and env.get("threads", True) else ""
-    filename = f"libogg_opus.{env['platform']}.{env['target']}.{env['arch']}{thread_suffix}{env['SHLIBSUFFIX']}"
+    filename = f"libxiph_audio.{env['platform']}.{env['target']}.{env['arch']}{thread_suffix}{env['SHLIBSUFFIX']}"
 
     if env["platform"] == "macos":
         framework = os.path.join(output_dir, os.path.splitext(filename)[0] + ".framework")
@@ -110,9 +110,9 @@ def output_library(env, output_dir):
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
 <key>CFBundleExecutable</key><string>{filename}</string>
-<key>CFBundleIdentifier</key><string>org.goatchurchprime.ogg-opus</string>
+<key>CFBundleIdentifier</key><string>org.goatchurchprime.xiph-audio</string>
 <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
-<key>CFBundleName</key><string>Godot Ogg Opus</string>
+<key>CFBundleName</key><string>Xiph Audio for Godot</string>
 <key>CFBundlePackageType</key><string>FMWK</string>
 <key>CFBundleSupportedPlatforms</key><array><string>MacOSX</string></array>
 <key>LSMinimumSystemVersion</key><string>10.15</string>
