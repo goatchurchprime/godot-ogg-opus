@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#18253b"/>
+      <stop offset="1" stop-color="#0b1020"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#67e480"/>
+      <stop offset="0.5" stop-color="#f2dd62"/>
+      <stop offset="1" stop-color="#f76d70"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#background)"/>
+  <circle cx="1130" cy="70" r="260" fill="#478cbf" opacity="0.12"/>
+  <circle cx="1160" cy="690" r="360" fill="#67e480" opacity="0.07"/>
+
+  <g transform="translate(100 160)">
+    <rect width="300" height="300" rx="64" fill="#f7f8fb"/>
+    <g fill="url(#accent)">
+      <path d="M78 91 Q78 78 91 75 L221 43 Q234 40 234 54 L234 96 L106 127 L106 194 Q106 220 80 236 Q54 251 31 241 Q8 231 9 207 Q10 184 34 169 Q55 157 78 164 Z"/>
+      <rect x="140" y="162" width="18" height="76" rx="9"/>
+      <rect x="174" y="141" width="18" height="97" rx="9"/>
+      <rect x="208" y="166" width="18" height="72" rx="9"/>
+    </g>
+  </g>
+
+  <g font-family="Inter, Noto Sans, DejaVu Sans, sans-serif" fill="#f8fafc">
+    <text x="470" y="250" font-size="72" font-weight="700">Xiph Audio</text>
+    <text x="474" y="316" font-size="42" font-weight="500" fill="#a9bad1">for Godot 4</text>
+    <rect x="474" y="361" width="500" height="8" rx="4" fill="url(#accent)"/>
+    <text x="474" y="440" font-size="37" font-weight="600">Ogg Opus + FLAC playback</text>
+    <text x="474" y="500" font-size="27" fill="#c9d4e3">Native AudioStream resources · Incremental decoding</text>
+  </g>
+
+  <g transform="translate(474 552)" font-family="Inter, Noto Sans, DejaVu Sans, sans-serif" font-size="23" font-weight="600">
+    <g><rect width="142" height="52" rx="26" fill="#253650"/><text x="71" y="34" text-anchor="middle" fill="#dbeafe">Desktop</text></g>
+    <g transform="translate(158)"><rect width="116" height="52" rx="26" fill="#253650"/><text x="58" y="34" text-anchor="middle" fill="#dbeafe">Web</text></g>
+    <g transform="translate(290)"><rect width="142" height="52" rx="26" fill="#253650"/><text x="71" y="34" text-anchor="middle" fill="#dbeafe">Android</text></g>
+    <g transform="translate(448)"><rect width="100" height="52" rx="26" fill="#253650"/><text x="50" y="34" text-anchor="middle" fill="#dbeafe">iOS</text></g>
+  </g>
+</svg>

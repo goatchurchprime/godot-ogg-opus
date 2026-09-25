@@ -74,16 +74,17 @@ Ogg Opus, FLAC, and any optional native Godot WAV, Ogg Vorbis, or MP3 comparison
 files. See `demo/README.md` for helpers that create local same-source comparison
 files and download a focused CC0 FLAC conformance set.
 
-## Releases and Asset Library
+## Releases and Godot Asset Store
 
 Each GitHub Actions build produces `godot-xiph-audio.zip`. Tags publish the
 same archive to a GitHub release. Use that release archive—not GitHub's source
-archive—as the Asset Library download URL, since source archives omit compiled
+archive—as the Asset Store download, since source archives omit compiled
 binaries and submodule contents.
 
-Suggested fields are **Xiph Audio for Godot**, category **Addons / Audio**,
-license **MIT**, and minimum Godot version **4.5**. The listing icon is
-`addons/xiph_audio/icon.png`.
+Suggested fields are **Xiph Audio for Godot**, tags **Audio**, **Opus**,
+**FLAC**, **GDExtension**, and **Cross-platform**, license **MIT**, and minimum
+Godot version **4.5**. The 16:9 listing thumbnail is
+`docs/asset-store-thumbnail.png`.
 
 Third-party sources retain their licenses: FLAC, Opus, opusfile, and libogg
 (BSD-style), and godot-cpp (MIT). See the packaged notices for details.
