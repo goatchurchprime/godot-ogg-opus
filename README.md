@@ -67,6 +67,25 @@ scons platform=linux target=template_debug arch=x86_64
 
 All codec dependencies are statically linked into one GDExtension binary.
 
+## Bundled dependency versions
+
+Release builds use the Git submodule commits pinned by this repository. They do
+not automatically follow upstream branches, which keeps rebuilds reproducible.
+The exact commit link is authoritative when a checkout is newer than an
+upstream numbered release.
+
+| Dependency | Version used | Pinned source |
+| --- | --- | --- |
+| [libFLAC](https://github.com/xiph/flac) | 1.5.0 | [`1507800d`](https://github.com/xiph/flac/commit/1507800de4b70e21be71f38caa0d9079d0bc6e45) |
+| [libogg](https://github.com/xiph/ogg) | 1.3.6 development checkout | [`06a5e026`](https://github.com/xiph/ogg/commit/06a5e0262cdc28aa4ae6797627a783b5010440f0) |
+| [libopus](https://github.com/xiph/opus) | upstream development checkout | [`503d81b1`](https://github.com/xiph/opus/commit/503d81b138d76621aae4b12786e90de48aa8db3a) |
+| [libopusfile](https://github.com/xiph/opusfile) | v0.12 + 59 commits | [`6dfd29e7`](https://github.com/xiph/opusfile/commit/6dfd29e7adb87f2e193575fc3fa88cbf1a0b27df) |
+| [godot-cpp](https://github.com/godotengine/godot-cpp) | Godot 4.5 branch checkout | [`27d9dd23`](https://github.com/godotengine/godot-cpp/commit/27d9dd23c83871e0619fca5dc2cddfbfd69e926a) |
+
+These are the versions used by release `v0.2.0`. Updating a submodule is an
+explicit maintenance change followed by the complete platform build matrix,
+rather than an unreviewed update from an upstream `main` branch.
+
 ## Interactive demo and conformance fixtures
 
 The `demo` project provides a shared play/pause, seek, position, and loop UI for
